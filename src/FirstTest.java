@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 /**전화번호 정보 저장하는 부분 **/
 class PhoneInfo{
@@ -24,12 +25,48 @@ class PhoneInfo{
 
 }
 
+
+
 public class FirstTest{
+    static Scanner sc = new Scanner(System.in);
+
+    public static void showMenu(){
+        System.out.println("1 입력 -> 데이터 입력");
+        System.out.println("0 입력 -> 프로그램 종료");
+        System.out.print("선택 : ");
+    }
+
+    public static void inputData(){
+        System.out.print("이름 : ");
+        String name = sc.nextLine();
+
+        System.out.print("전화번호 : ");
+        String phone = sc.nextLine();
+
+        System.out.print("생년월일 : ");
+        String birth = sc.nextLine();
+
+        PhoneInfo info = new PhoneInfo(name, phone, birth);
+        System.out.println("\n입력된 정보");
+        info.showPhoneInfo();
+
+    }
     public static void main(String[] args){
-        PhoneInfo person1 = new PhoneInfo("차은우","111-1111","97.02.22");
-        PhoneInfo person2 = new PhoneInfo("김은우","111-2222");
-        person1.showPhoneInfo();
-        person2.showPhoneInfo();
+        int choice;
+        while(true){
+            showMenu();
+            choice = sc.nextInt();
+            sc.nextLine();
+
+            if (choice ==1 ){
+                inputData();
+            }
+            else if(choice == 0){
+                System.out.println("프로그램 종료");
+                return ;
+            }
+        }
+
 
     }
 }
