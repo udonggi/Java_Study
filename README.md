@@ -8,3 +8,7 @@
 기능 담당 클래스를 PhoneBookManager로 한다.
 
 main 클래스 안에 두었던 것을 MenuViewer로 빼두었다.
+
+네 번째 수정 -> birth 변수 삭제, PhoneUnivInfo, PhoneCompanyInfo 추가하여 대학 및 회사 정보 입력 받고 출력
+이전에는 inputdata에서 inforStorage 배열에 바로 인스턴스 생성해 정보 넣었다면 이제는 info 라는 참조변수 만들고 초기화 시키고 다른 메소드 통해서 인스턴스 생성하여
+정보를 넣어준다.

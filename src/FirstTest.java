@@ -4,12 +4,11 @@ import java.util.Scanner;
 class PhoneInfo{
     String name;
     String phoneNumber;
-    String birthday;
 
     public PhoneInfo(String name, String phoneNumber, String birthday){
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.birthday = birthday;
+
     }
     public PhoneInfo(String name, String phoneNumber){
         this(name, phoneNumber, null);
@@ -17,10 +16,38 @@ class PhoneInfo{
     public void showPhoneInfo(){
         System.out.println("이름 : "+name);
         System.out.println("폰번호 : "+phoneNumber);
-        if(birthday!=null){
-            System.out.println("생년월일 : "+birthday);
-        }
-        System.out.println(""); //한칸 띄우기
+    }
+
+} //birthday 부분 삭제
+
+class PhoneUnivInfo extends PhoneInfo{
+    String major;
+    int year;
+
+    public PhoneUnivInfo(String name, String phoneNumber, String major, int year) {
+        super(name, phoneNumber);
+        this.major = major;
+        this.year = year;
+    }
+
+    public void showPhoneInfo(){
+        super.showPhoneInfo();
+        System.out.println("major : "+major);
+        System.out.println("year : "+year);
+    }
+}
+
+class PhoneCompanyInfo extends PhoneInfo{
+    String company;
+
+    public PhoneCompanyInfo(String name, String phoneNumber, String company){
+        super(name, phoneNumber);
+        this.company = company;
+    }
+
+    public void showPhoneInfo(){
+        super.showPhoneInfo();
+        System.out.println("company : "+company);
     }
 
 }
@@ -31,16 +58,61 @@ class PhoneBookManager{
     PhoneInfo[] infoArrays = new PhoneInfo[MAX_CNT];
     int curCNT=0;
 
-    public void inputData(){
-        System.out.println("데이터 입력을 시작합니다..");
+    /**PhoneInfo 인스턴스 참조 값 반환**/
+    private PhoneInfo readFriendInfo(){
         System.out.print("이름 : ");
         String name = sc.nextLine();
         System.out.print("전화번호 : ");
         String phone = sc.nextLine();
-        System.out.print("생년월일 : ");
-        String birth = sc.nextLine();
+        return new PhoneInfo(name, phone);
+    }
 
-        infoArrays[curCNT++] = new PhoneInfo(name, phone, birth);
+    private PhoneInfo readUnivFriendInfo(){
+        System.out.print("이름 : ");
+        String name = sc.nextLine();
+        System.out.print("전화번호 : ");
+        String phone = sc.nextLine();
+        System.out.print("전공 : ");
+        String major = sc.nextLine();
+        System.out.print("학년 : ");
+        int year = sc.nextInt();
+        sc.nextLine(); //Int 다음 엔터를 다음에서 인식하므로 없애준다.
+        return new PhoneUnivInfo(name, phone, major, year);
+
+    }
+
+    private PhoneInfo readCompanyFriendInfo(){
+        System.out.print("이름 : ");
+        String name = sc.nextLine();
+        System.out.print("전화번호 : ");
+        String phone = sc.nextLine();
+        System.out.print("회사 : ");
+        String company = sc.nextLine();
+        return new PhoneCompanyInfo(name, phone, company);
+
+    }
+
+    public void inputData(){
+        System.out.println("데이터 입력을 시작합니다..");
+        System.out.println("1. 일반, 2. 대학, 3. 회사");
+        System.out.print("선택 >> ");
+        int choice = sc.nextInt();
+        sc.nextLine();
+        PhoneInfo info = null;
+
+        switch (choice){
+            case 1:
+                info = readFriendInfo();
+                break;
+            case 2:
+                info = readUnivFriendInfo();
+                break;
+            case 3:
+                info = readCompanyFriendInfo();
+                break;
+        }
+
+        infoArrays[curCNT++] = info; // 4번째 수정으로 바뀐 부분
         System.out.println("데이터 입력이 완료되었습니다. \n");
     }
 
