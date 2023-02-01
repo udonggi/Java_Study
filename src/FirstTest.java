@@ -158,7 +158,7 @@ class PhoneBookManager{
     private int search(String name){
         for(int i=0; i<curCNT; i++){
             PhoneInfo Info = infoArrays[i];
-            if(name.compareTo(Info.name)==0){
+            if(name.equals(Info.name)){ //compareTo == 0 이용해도 된다.
                 return i;
             }
         }
