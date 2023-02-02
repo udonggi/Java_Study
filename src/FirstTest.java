@@ -1,5 +1,13 @@
 import java.util.Scanner;
 
+/**인터페이스 기반의 상수표현**/
+interface INIT_MENU{
+    int INPUT=1, SEARCH=2, DELETE=3, EXIT=4;
+}
+interface INPUT_SELECT{
+    int NORMAL=1, UNIV=2, COMPANY=3;
+}
+
 /**전화번호 정보 저장하는 부분 **/
 class PhoneInfo{
     String name;
@@ -58,6 +66,15 @@ class PhoneBookManager{
     PhoneInfo[] infoArrays = new PhoneInfo[MAX_CNT];
     int curCNT=0;
 
+    private PhoneBookManager(){}
+
+    static PhoneBookManager inst = null;
+    public static PhoneBookManager createManagerInst(){
+        if(inst ==null)
+            inst = new PhoneBookManager();
+        return inst;
+    }
+
     /**PhoneInfo 인스턴스 참조 값 반환**/
     private PhoneInfo readFriendInfo(){
         System.out.print("이름 : ");
@@ -101,13 +118,13 @@ class PhoneBookManager{
         PhoneInfo info = null;
 
         switch (choice){
-            case 1:
+            case INPUT_SELECT.NORMAL:
                 info = readFriendInfo();
                 break;
-            case 2:
+            case INPUT_SELECT.UNIV:
                 info = readUnivFriendInfo();
                 break;
-            case 3:
+            case INPUT_SELECT.COMPANY:
                 info = readCompanyFriendInfo();
                 break;
         }
@@ -183,7 +200,7 @@ class MenuViewer{
 public class FirstTest{
 
     public static void main(String[] args){
-        PhoneBookManager manager = new PhoneBookManager();
+        PhoneBookManager manager =PhoneBookManager.createManagerInst();
         int choice;
 
         while(true){
@@ -192,16 +209,16 @@ public class FirstTest{
             PhoneBookManager.sc.nextLine();
 
             switch(choice){
-                case 1:
+                case INIT_MENU.INPUT:
                     manager.inputData();
                     break;
-                case 2:
+                case INIT_MENU.SEARCH:
                     manager.searchData();
                     break;
-                case 3:
+                case INIT_MENU.DELETE:
                     manager.deleteData();
                     break;
-                case 4:
+                case INIT_MENU.EXIT:
                     System.out.println("프로그램을 종료합니다.");
                     return;
             }

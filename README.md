@@ -12,3 +12,20 @@ main 클래스 안에 두었던 것을 MenuViewer로 빼두었다.
 네 번째 수정 -> birth 변수 삭제, PhoneUnivInfo, PhoneCompanyInfo 추가하여 대학 및 회사 정보 입력 받고 출력
 이전에는 inputdata에서 inforStorage 배열에 바로 인스턴스 생성해 정보 넣었다면 이제는 info 라는 참조변수 만들고 초기화 시키고 다른 메소드 통해서 인스턴스 생성하여
 정보를 넣어준다.
+
+다섯 번째 수정 -> 코드 구성 보다 좋은 형태로 변경
+Manager 클래스의 인스턴스 수가 하나 넘지 않도록 구성할 것이다.
+메뉴에 대한 정보가 이름이 부여된 상수가 아닌 숫자로 처리되는데 interface 기반의 상수표현을
+바탕으로 메뉴 선택과 그에 따른 처리가 부여된 상수를 기반으로 진행되게 변경한다.
+
+추가된 인터페이스 - INIT_MENU, INPUT_SELECT
+
+static PhoneBookManager inst = null;
+public static PhoneBookManager createManagerInst(){
+if(inst ==null)
+inst = new PhoneBookManager();
+return inst;
+}
+
+이 부분과 main의 인스턴스 생성 부분이 변경 되었다 (인스턴스 하나만 생성 위해)
+메소드를 통해 인스턴스 생성하는데 null이면 생성하도록 한다.
