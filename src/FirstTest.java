@@ -8,6 +8,19 @@ interface INPUT_SELECT{
     int NORMAL=1, UNIV=2, COMPANY=3;
 }
 
+class MenuChoiceException extends Exception{
+    int wrongChoice;
+
+    public MenuChoiceException(int choice){
+        super(choice+"를 잘못 선택하였습니다.");
+        wrongChoice = choice;
+    }
+
+    public void showWrongChoice(){
+        System.out.println(wrongChoice+"에 해당하는 선택은 존재하지 않습니다");
+    }
+}
+
 /**전화번호 정보 저장하는 부분 **/
 class PhoneInfo{
     String name;
@@ -109,13 +122,16 @@ class PhoneBookManager{
 
     }
 
-    public void inputData(){
+    public void inputData() throws MenuChoiceException {
         System.out.println("데이터 입력을 시작합니다..");
         System.out.println("1. 일반, 2. 대학, 3. 회사");
         System.out.print("선택 >> ");
         int choice = sc.nextInt();
         sc.nextLine();
         PhoneInfo info = null;
+
+        if(choice<1 || choice > 3)
+            throw new MenuChoiceException(choice);
 
         switch (choice){
             case INPUT_SELECT.NORMAL:
@@ -204,23 +220,33 @@ public class FirstTest{
         int choice;
 
         while(true){
-            MenuViewer.showMenu();
-            choice = PhoneBookManager.sc.nextInt();
-            PhoneBookManager.sc.nextLine();
+            try {
+                MenuViewer.showMenu();
+                choice = PhoneBookManager.sc.nextInt();
+                PhoneBookManager.sc.nextLine();
 
-            switch(choice){
-                case INIT_MENU.INPUT:
-                    manager.inputData();
-                    break;
-                case INIT_MENU.SEARCH:
-                    manager.searchData();
-                    break;
-                case INIT_MENU.DELETE:
-                    manager.deleteData();
-                    break;
-                case INIT_MENU.EXIT:
-                    System.out.println("프로그램을 종료합니다.");
-                    return;
+                if(choice < 1 || choice > 4)
+                    throw new MenuChoiceException(choice);
+
+                switch (choice) {
+                    case INIT_MENU.INPUT:
+                        manager.inputData();
+                        break;
+                    case INIT_MENU.SEARCH:
+                        manager.searchData();
+                        break;
+                    case INIT_MENU.DELETE:
+                        manager.deleteData();
+                        break;
+                    case INIT_MENU.EXIT:
+                        System.out.println("프로그램을 종료합니다.");
+                        return;
+                }
+            }
+            catch(MenuChoiceException e){
+                System.out.println(e.getMessage());
+                e.showWrongChoice();
+                System.out.println("메뉴 선택을 처음부터 다시 시작합니다. \n");
             }
         }
 
